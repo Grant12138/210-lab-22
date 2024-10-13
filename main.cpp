@@ -52,7 +52,7 @@ class DoublyLinkedList
             }
         }
 
-        void delete_node(int value)
+        void delete_val(int value)
         {
             if (!head) // Empty list
                 return;
@@ -75,6 +75,60 @@ class DoublyLinkedList
                 tail = temp->prev; // Deleting the tail
 
             delete temp;
+        }
+
+        void pop_front()
+        {
+            if (!head) return;
+
+            Node* temp = head;
+            head = temp->next;
+            if (head)
+                head->prev = nullptr;
+            else
+                tail = nullptr;
+
+            delete temp;
+        }
+
+        void pop_back()
+        {
+            if (!tail) return;
+
+            Node*temp = tail;
+            tail = temp->prev;
+            if (tail)
+                tail->next = nullptr;
+            else
+                head = nullptr;
+
+            delete temp;
+        }
+
+        void delete_pos(int position)
+        {
+            if (!head) return;
+            if (position == 0)
+            {
+                pop_front();
+                return;
+            }
+
+            Node* temp = head;
+            for (int i = 0; i < position && temp; i++)
+                temp = temp->next;
+
+            if (!temp) return;
+
+            if (temp->prev)
+                temp->prev->next = temp->next;
+            else
+                head = temp->next;
+
+            if (temp->next)
+                temp->next->prev = temp->prev;
+            else
+                tail = temp->prev;
         }
 
         void print() const
@@ -120,11 +174,23 @@ int main()
 
     for (int i = 0; i < size; ++i)
         list.push_back(rand() % (MAX_NR-MIN_NR+1) + MIN_NR);
-    cout << "List forward: ";
+    cout << "List forward:\n";
     list.print();
 
-    cout << "List backward: ";
+    cout << "List backward:\n";
     list.print_reverse();
+
+    list.pop_front();
+    cout << "After pop_front:\n";
+    list.print();
+
+    list.pop_back();
+    cout << "After pop_back:\n";
+    list.print();
+
+    list.delete_pos(2);
+    cout << "After delete_pos(2):\n";
+    list.print();
 
     cout << "Deleting list, then trying to print.\n";
     list.~DoublyLinkedList();
