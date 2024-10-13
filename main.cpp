@@ -105,7 +105,7 @@ class DoublyLinkedList
             delete temp;
         }
 
-        void delete_pos(int position)
+        void delete_pos(int position) // one-based counting
         {
             if (!head) return;
             if (position == 0)
@@ -115,7 +115,7 @@ class DoublyLinkedList
             }
 
             Node* temp = head;
-            for (int i = 0; i < position && temp; i++)
+            for (int i = 0; i < position - 1 && temp; i++)
                 temp = temp->next;
 
             if (!temp) return;
@@ -145,7 +145,7 @@ class DoublyLinkedList
 
         void print_reverse() const
         {
-            Node* current = head;
+            Node* current = tail;
             if (!current) return;
             while (current)
             {
@@ -166,9 +166,14 @@ class DoublyLinkedList
         }
 };
 
+void print_id(string const& lab_desc);
+
 // Driver program
 int main()
 {
+    print_id("Lab 22: Upgrade the DLL Class");
+
+    srand(time(0));
     DoublyLinkedList list;
     int size = rand() % (MAX_LS-MIN_LS+1) + MIN_LS;
 
@@ -198,4 +203,13 @@ int main()
     list.print();
 
     return 0;
+}
+
+void print_id(string const& lab_desc)
+{
+    cout << "\nCOMSC210 | Grant Luo | " << lab_desc << "\n";
+    cout << "Editor: CLion\n";
+    cout << "Compiler: Apple clang version 16.0.0\n";
+    cout << "File: " << __FILE__ << "\n";
+    cout << "Compiled: " << __DATE__ << " at " << __TIME__ << "\n\n";
 }
